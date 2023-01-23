@@ -40,19 +40,6 @@
 #ifndef __BASE_TYPES_H__
 #define __BASE_TYPES_H__
 
-#if defined(WIN32) || defined(_WIN64)
-#define BASE_PLATFORM_WINDOWS
-#include "windows.h"
-#elif defined(__APPLE__)
-#define BASE_PLATFORM_MACOS
-#include "TargetConditionals.h"
-#include "ctype.h"
-#include "sys/types.h"
-#include "unistd.h"
-#else
-#error "Unsupported target platform detected."
-#endif
-
 namespace base
 {
 
