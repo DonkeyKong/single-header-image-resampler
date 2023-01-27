@@ -36,6 +36,7 @@
 #include <algorithm>
 #include <memory>
 #include <string>
+#include <cstring>
 #include <cmath>
 
 #ifndef __BASE_TYPES_H__
