@@ -180,7 +180,7 @@ namespace base
   }
 
   template <int BytesPerPixel>
-  bool SampleKernelBilinearH(uint8 *src, uint32 src_width, uint32 src_height,
+  bool SampleKernelBilinearH(const uint8* src, uint32 src_width, uint32 src_height,
                              float32 f_x, float32 f_y, uint8 *output)
   {
     if (!src || !src_width || !src_height || f_x < 0 || f_y < 0 || !output)
@@ -192,7 +192,7 @@ namespace base
        to sample using the nearest 2 pixels to our coordinate. */
     int32 sample_x = f_x;
     int32 sample_y = f_y;
-    uint8 *pixels[2] = {nullptr};
+    const uint8* pixels[2] = {nullptr};
     float32 f_delta = (float32)f_x - sample_x;
 
     /* compute our two pixels that will be interpolated together. */
@@ -217,7 +217,7 @@ namespace base
   }
 
   template <int BytesPerPixel>
-  bool SampleKernelBilinearV(uint8 *src, uint32 src_width, uint32 src_height,
+  bool SampleKernelBilinearV(const uint8* src, uint32 src_width, uint32 src_height,
                              float32 f_x, float32 f_y, uint8 *output)
   {
     if (!src || !src_width || !src_height || f_x < 0 || f_y < 0 || !output)
@@ -229,7 +229,7 @@ namespace base
        to sample using the nearest 2 pixels to our coordinate. */
     int32 sample_x = f_x;
     int32 sample_y = f_y;
-    uint8 *pixels[2] = {nullptr};
+    const uint8* pixels[2] = {nullptr};
     float32 f_delta = (float32)f_y - sample_y;
 
     /* compute our two pixels that will be interpolated together. */
@@ -254,7 +254,7 @@ namespace base
   }
 
   template <int BytesPerPixel>
-  bool SampleKernelBilinear(uint8 *src, uint32 src_width, uint32 src_height,
+  bool SampleKernelBilinear(const uint8* src, uint32 src_width, uint32 src_height,
                             KernelDirection direction, float32 f_x, float32 f_y,
                             uint8 *output)
   {
@@ -272,7 +272,7 @@ namespace base
   }
 
   template <int BytesPerPixel>
-  bool SampleKernelBicubicH(uint8 *src, uint32 src_width, uint32 src_height,
+  bool SampleKernelBicubicH(const uint8* src, uint32 src_width, uint32 src_height,
                             float32 f_x, float32 f_y, float32 coeff_b,
                             float32 coeff_c, uint8 *output)
   {
@@ -299,7 +299,7 @@ namespace base
       float32 distance = fabs(x_delta);
       float32 weight = bicubic_weight(coeff_b, coeff_c, distance);
 
-      uint8 *src_pixel = BLOCK_OFFSET(src, src_width, i_x, i_y, BytesPerPixel);
+      const uint8* src_pixel = BLOCK_OFFSET(src, src_width, i_x, i_y, BytesPerPixel);
 
       /* accumulate bicubic weighted samples from the source. */
       total_samples[0] += src_pixel[0] * weight;
@@ -328,7 +328,7 @@ namespace base
   }
 
   template <int BytesPerPixel>
-  bool SampleKernelBicubicV(uint8 *src, uint32 src_width, uint32 src_height,
+  bool SampleKernelBicubicV(const uint8* src, uint32 src_width, uint32 src_height,
                             float32 f_x, float32 f_y, float32 coeff_b,
                             float32 coeff_c, uint8 *output)
   {
@@ -354,7 +354,7 @@ namespace base
       float32 y_delta = (float32)f_y - i_y;
       float32 distance = fabs(y_delta);
       float32 weight = bicubic_weight(coeff_b, coeff_c, distance);
-      uint8 *src_pixel = BLOCK_OFFSET(src, src_width, i_x, i_y, BytesPerPixel);
+      const uint8* src_pixel = BLOCK_OFFSET(src, src_width, i_x, i_y, BytesPerPixel);
 
       /* accumulate bicubic weighted samples from the source. */
       total_samples[0] += src_pixel[0] * weight;
@@ -383,7 +383,7 @@ namespace base
   }
 
   template <int BytesPerPixel>
-  bool SampleKernelBicubic(uint8 *src, uint32 src_width, uint32 src_height,
+  bool SampleKernelBicubic(const uint8* src, uint32 src_width, uint32 src_height,
                            KernelDirection direction, float32 f_x, float32 f_y,
                            float32 coeff_b, float32 coeff_c, uint8 *output)
   {
@@ -401,7 +401,7 @@ namespace base
   }
 
   template <int BytesPerPixel>
-  bool SampleKernelLanczosH(uint8 *src, uint32 src_width, uint32 src_height,
+  bool SampleKernelLanczosH(const uint8* src, uint32 src_width, uint32 src_height,
                             float32 f_x, float32 f_y, float32 coeff_a,
                             uint8 *output)
   {
@@ -429,7 +429,7 @@ namespace base
       float32 distance = fabs(x_delta);
       float32 weight = lanczos_weight(coeff_a, distance);
 
-      uint8 *src_pixel = BLOCK_OFFSET(src, src_width, i_x, i_y, BytesPerPixel);
+      const uint8* src_pixel = BLOCK_OFFSET(src, src_width, i_x, i_y, BytesPerPixel);
 
       /* accumulate bicubic weighted samples from the source. */
       total_samples[0] += src_pixel[0] * weight;
@@ -458,7 +458,7 @@ namespace base
   }
 
   template <int BytesPerPixel>
-  bool SampleKernelLanczosV(uint8 *src, uint32 src_width, uint32 src_height,
+  bool SampleKernelLanczosV(const uint8* src, uint32 src_width, uint32 src_height,
                             float32 f_x, float32 f_y, float32 coeff_a,
                             uint8 *output)
   {
@@ -486,7 +486,7 @@ namespace base
       float32 distance = fabs(y_delta);
       float32 weight = lanczos_weight(coeff_a, distance);
 
-      uint8 *src_pixel = BLOCK_OFFSET(src, src_width, i_x, i_y, BytesPerPixel);
+      const uint8* src_pixel = BLOCK_OFFSET(src, src_width, i_x, i_y, BytesPerPixel);
 
       /* accumulate bicubic weighted samples from the source. */
       total_samples[0] += src_pixel[0] * weight;
@@ -515,7 +515,7 @@ namespace base
   }
 
   template <int BytesPerPixel>
-  bool SampleKernelLanczos(uint8 *src, uint32 src_width, uint32 src_height,
+  bool SampleKernelLanczos(const uint8* src, uint32 src_width, uint32 src_height,
                            KernelDirection direction, float32 f_x, float32 f_y,
                            float32 coeff_a, uint8 *output)
   {
@@ -533,7 +533,7 @@ namespace base
   }
 
   template <int BytesPerPixel>
-  bool SampleKernelAverageH(uint8 *src, uint32 src_width, uint32 src_height,
+  bool SampleKernelAverageH(const uint8* src, uint32 src_width, uint32 src_height,
                             float32 f_x, float32 f_y, float32 h_ratio,
                             uint8 *output)
   {
@@ -562,7 +562,7 @@ namespace base
       float32 distance = fabs(x_delta);
       float32 weight = 0.0f;
 
-      uint8 *src_pixel = BLOCK_OFFSET(src, src_width, i_x, i_y, BytesPerPixel);
+      const uint8* src_pixel = BLOCK_OFFSET(src, src_width, i_x, i_y, BytesPerPixel);
 
       if (h_ratio >= 1.0)
       {
@@ -617,7 +617,7 @@ namespace base
   }
 
   template <int BytesPerPixel>
-  bool SampleKernelAverageV(uint8 *src, uint32 src_width, uint32 src_height,
+  bool SampleKernelAverageV(const uint8* src, uint32 src_width, uint32 src_height,
                             float32 f_x, float32 f_y, float32 v_ratio,
                             uint8 *output)
   {
@@ -646,7 +646,7 @@ namespace base
       float32 distance = fabs(y_delta);
       float32 weight = 0.0f;
 
-      uint8 *src_pixel = BLOCK_OFFSET(src, src_width, i_x, i_y, BytesPerPixel);
+      const uint8* src_pixel = BLOCK_OFFSET(src, src_width, i_x, i_y, BytesPerPixel);
 
       if (v_ratio >= 1.0)
       {
@@ -701,7 +701,7 @@ namespace base
   }
 
   template <int BytesPerPixel>
-  bool SampleKernelGaussianH(uint8 *src, uint32 src_width, uint32 src_height,
+  bool SampleKernelGaussianH(const uint8* src, uint32 src_width, uint32 src_height,
                              float32 f_x, float32 f_y, float32 h_ratio,
                              uint8 *output)
   {
@@ -730,7 +730,7 @@ namespace base
       float32 distance = fabs(x_delta);
       float32 weight = gaussian_weight(distance, max_distance);
 
-      uint8 *src_pixel = BLOCK_OFFSET(src, src_width, i_x, i_y, BytesPerPixel);
+      const uint8* src_pixel = BLOCK_OFFSET(src, src_width, i_x, i_y, BytesPerPixel);
 
       /* accumulate bicubic weighted samples from the source. */
       total_samples[0] += src_pixel[0] * weight;
@@ -758,7 +758,7 @@ namespace base
   }
 
   template <int BytesPerPixel>
-  bool SampleKernelGaussianV(uint8 *src, uint32 src_width, uint32 src_height,
+  bool SampleKernelGaussianV(const uint8* src, uint32 src_width, uint32 src_height,
                              float32 f_x, float32 f_y, float32 v_ratio,
                              uint8 *output)
   {
@@ -787,7 +787,7 @@ namespace base
       float32 distance = fabs(y_delta);
       float32 weight = gaussian_weight(distance, max_distance);
 
-      uint8 *src_pixel = BLOCK_OFFSET(src, src_width, i_x, i_y, BytesPerPixel);
+      const uint8* src_pixel = BLOCK_OFFSET(src, src_width, i_x, i_y, BytesPerPixel);
 
       /* accumulate bicubic weighted samples from the source. */
       total_samples[0] += src_pixel[0] * weight;
@@ -816,7 +816,7 @@ namespace base
   }
 
   template <int BytesPerPixel>
-  bool SampleKernelAverage(uint8 *src, uint32 src_width, uint32 src_height,
+  bool SampleKernelAverage(const uint8* src, uint32 src_width, uint32 src_height,
                            KernelDirection direction, float32 f_x, float32 f_y,
                            float32 h_ratio, float32 v_ratio, uint8 *output)
   {
@@ -834,7 +834,7 @@ namespace base
   }
 
   template <int BytesPerPixel>
-  bool SampleKernelGaussian(uint8 *src, uint32 src_width, uint32 src_height,
+  bool SampleKernelGaussian(const uint8* src, uint32 src_width, uint32 src_height,
                             KernelDirection direction, float32 f_x, float32 f_y,
                             float32 h_ratio, float32 v_ratio, uint8 *output)
   {
@@ -852,7 +852,7 @@ namespace base
   }
 
   template <int BytesPerPixel>
-  bool SampleKernelNearest(uint8 *src, uint32 src_width, uint32 src_height,
+  bool SampleKernelNearest(const uint8* src, uint32 src_width, uint32 src_height,
                            float32 f_x, float32 f_y, uint8 *output)
   {
     if (!src || !src_width || !src_height || !output)
@@ -877,7 +877,7 @@ namespace base
   }
 
   template <int BytesPerPixel>
-  bool SampleKernel(uint8 *src, uint32 src_width, uint32 src_height,
+  bool SampleKernel(const uint8* src, uint32 src_width, uint32 src_height,
                     KernelDirection direction, float32 f_x, float32 f_y,
                     KernelType type, float32 h_ratio, float32 v_ratio,
                     uint8 *output)
@@ -932,8 +932,8 @@ namespace base
 
   /* Resamples an image using a bilinear, bicubic, or lanczos filter. */
   template <int BytesPerPixel>
-  bool ResampleImage(uint8 *src, uint32 src_width, uint32 src_height,
-                     uint8 *dst, uint32 dst_width, uint32 dst_height,
+  bool ResampleImage(const uint8* src, uint32 src_width, uint32 src_height,
+                     uint8* dst, uint32 dst_width, uint32 dst_height,
                      KernelType type, ::std::string *errors = nullptr)
   {
     if (!src || !dst || !src_width || !src_height || !dst_width || !dst_height)
